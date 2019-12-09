@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+
+  catclientes:
+
+    container_name: api_materias1
+
+    image: api_materias1
+
+    build: .
+
+    ports:
+
+      - '5001:5001' 
+
+    networks:
+
+      - domain.parties 
+
+    depends_on:
+
+      - database
+
+  database:
+
+    container_name: mongoserver1
+
+    image: mongo
+
+    environment:
+
+      - MONGO_INITDB_DATABASE=materias
+
+      - MONGO_INITDB_ROOT_USERNAME=apiuser
+
+      - MONGO_INITDB_ROOT_PASSWORD=apipassword
+
+    volumes:
+
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+    ports:
+
+      - '27017:27017'
+
+    networks:
+
+      - domain.parties 
+
+networks:
+
+  domain.parties:
+
+    external: true  
